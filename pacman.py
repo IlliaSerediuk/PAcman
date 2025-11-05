@@ -3,20 +3,20 @@ import sys
 import random
 import time
 import math
-
+pygame.mixer.init()
 pygame.init()
 
-# --- ЗВУКИ (ВСТАВ СВОЇ ФАЙЛИ ТУТ) ---
+
 ghost_spawn_sound = pygame.mixer.Sound("privid.mp3")
 win_sound = pygame.mixer.Sound("peremoga.mp3")
 lose_sound = pygame.mixer.Sound("lose.mp3")
 
-# --- ПАРАМЕТРИ ---
+
 WIDTH, HEIGHT = 800, 800
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pac-Man Ultimate Edition")
 
-# --- КОЛЬОРИ ---
+
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
@@ -35,11 +35,10 @@ radius = 18
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("arial", 32)
 
-# Таймер спавну привидів кожні 15 сек
+
 NEW_GHOST_EVENT = pygame.USEREVENT + 1
 pygame.time.set_timer(NEW_GHOST_EVENT, 15000)
 
-# --- СТІНИ (повернута 1 стінка, забрана 2-я знизу) ---
 walls = [
     pygame.Rect(0, 0, 800, 20),
     pygame.Rect(0, 0, 20, 800),
@@ -124,7 +123,7 @@ def game_over_screen(message):
                 if button_quit.collidepoint(event.pos): pygame.quit(); sys.exit()
 
 
-
+def main_game():
     x, y = 60, 60
     pellets = create_pellets()
     total = len(pellets)
@@ -157,7 +156,6 @@ def game_over_screen(message):
         before = len(pellets)
         pellets = [p for p in pellets if not pac_rect.colliderect(p)]
         if len(pellets) < before:
-            pellet_sound.play()
             score += 1
 
         if not pellets:
@@ -181,4 +179,6 @@ def game_over_screen(message):
         pygame.display.flip()
         clock.tick(60)
 
+while True:
+    main_game()
 
